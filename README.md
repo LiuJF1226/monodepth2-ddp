@@ -121,16 +121,20 @@ The `--eval_split` flag can only be odom_9 or odom_10.
 You can predict scaled disparity for a single image with:
 
 ```shell
-python test_simple.py --image_path folder/test_image.jpg --pretrained_path xxxx/ckpt.pth --ext png --save_npy
+python test_simple.py --image_path folder/test_image.jpg --pretrained_path xxxx/ckpt.pth --save_npy
 ```
 
-or, if you are using a stereo-trained model, you can estimate metric depth with
+or, if you are using a stereo-trained model, you can estimate metric depth with:
 
 ```shell
-python test_simple.py --image_path folder/test_image.jpg --pretrained_path xxxx/ckpt.pth --ext png --save_npy --pred_metric_depth
+python test_simple.py --image_path folder/test_image.jpg --pretrained_path xxxx/ckpt.pth --save_npy --pred_metric_depth
 ```
 
-The `--image_path` flag can also be a directory containing several images. In this setting, the script will predict all the images in the directory.
+The `--image_path` flag can also be a directory containing several images. In this setting, the script will predict all the images (use `--ext` to specify png or jpg) in the directory:
+
+```shell
+python test_simple.py --image_path folder --pretrained_path xxxx/ckpt.pth --ext png --save_npy
+```
 
 ## Prediction for a video
 
