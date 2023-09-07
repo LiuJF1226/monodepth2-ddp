@@ -121,7 +121,8 @@ def test_simple(args):
             
             ims.append(out)
         
-        name_dest = os.path.join(output_directory, "output.gif")
+        # name_dest = os.path.join(output_directory, "demo.gif")
+        name_dest = "demo.gif"
         ims[0].save(name_dest, save_all=True, append_images=ims[1:], duration=200, loop=0)
 
         print(" Save output gif to:   {}".format(name_dest))
