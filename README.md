@@ -139,7 +139,7 @@ python test_simple.py --image_path folder --pretrained_path xxxx/ckpt.pth --ext 
 ## Prediction for a video
 
 ```shell
-python test_video.py --image_path xxxxx --pretrained_path xxxx/ckpt.pth --ext png
+python test_video.py --image_path folder --pretrained_path xxxx/ckpt.pth --ext png
 ```
 Here the `--image_path` flag should be a directory containing several video frames. Note that these video frame files should be named in an ascending numerical order. For example, the first frame is named as `0000.png`, the second frame is named as `0001.png`, and etc. Then the script will output a GIF file.
 
