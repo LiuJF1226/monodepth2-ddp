@@ -1,6 +1,6 @@
 # Monodepth2-DDP
 
-This is the PyTorch implementation (not official) for [Monodepth2](https://github.com/nianticlabs/monodepth2) ("Digging into Self-Supervised Monocular Depth Prediction", ICCV2019).
+This is a personal modified PyTorch implementation (not official) for [Monodepth2](https://github.com/nianticlabs/monodepth2) ("Digging into Self-Supervised Monocular Depth Prediction", ICCV2019).
 
 
 On the basis of the raw code in [Monodepth2](https://github.com/nianticlabs/monodepth2), we add some new features in this version:
@@ -27,7 +27,7 @@ We experiment with PyTorch 1.9.1, CUDA 11.1, Python 3.7. Other torch versions ma
 
 # Preparing datasets
 
-For KITTI and KITTI Odometry datasets, you can prepare them as done in the [Monodepth2](https://github.com/nianticlabs/monodepth2). Note that we directly train with the raw png images and do not convert them to jpgs. You also need to generate the groundtruth depth maps before training since the code will evaluate after each epoch. For the  groundtruth, run the following commands:
+For KITTI and KITTI Odometry datasets, you can prepare them as done in [Monodepth2](https://github.com/nianticlabs/monodepth2). Note that we directly train with the raw png images and do not convert them to jpgs. You also need to generate the groundtruth depth maps before training since the code will evaluate after each epoch. For the  groundtruth, run the following commands:
 ```shell
 ### generate raw groundtruth
 python export_gt_depth.py --data_path /home/datasets/kitti_raw_data --split eigen
