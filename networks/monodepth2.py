@@ -19,7 +19,7 @@ from layers import *
 class DepthEncoder(nn.Module):
     """Pytorch module for a resnet encoder
     """
-    def __init__(self, num_layers, pretrained, num_input_images=1):
+    def __init__(self, num_layers, pretrained):
         super(DepthEncoder, self).__init__()
 
         self.num_ch_enc = np.array([64, 64, 128, 256, 512])
