@@ -33,10 +33,7 @@ class DepthEncoder(nn.Module):
         if num_layers not in resnets:
             raise ValueError("{} is not a valid number of resnet layers".format(num_layers))
 
-        if num_input_images > 1:
-            self.encoder = resnet_multiimage_input(num_layers, pretrained, num_input_images)
-        else:
-            self.encoder = resnets[num_layers](pretrained)
+        self.encoder = resnets[num_layers](pretrained)
 
         if num_layers > 34:
             self.num_ch_enc[1:] *= 4
