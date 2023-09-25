@@ -12,7 +12,7 @@ On the basis of the raw codes in [Monodepth2](https://github.com/nianticlabs/mon
 * Make3D evaluation
 
 # Strange results when training on Cityscapes
-We train and evaluate Monodepth2 on the Cityscapes dataset follow the instructions in [ManyDepth](https://github.com/nianticlabs/manydepth), but the results are somewhat strange. The result at epoch 2 is already much better than that reported in ManyDepth. However, the result gets worse and worse as the training continues (epoch 5, 10, 15, 20). We train it for several times and it shows the same trend every time. One possible reason is that Cityscapes contain a lot of moving objects, which causes the model rather sensitive to the initializations and noises.
+We train and evaluate Monodepth2 on the Cityscapes dataset following the instructions in [ManyDepth](https://github.com/nianticlabs/manydepth), but the results are somewhat strange. The result at epoch 2 is already much better than that reported in ManyDepth. However, the result gets worse and worse as the training continues (epoch 5, 10, 15, 20). We train it for several times and it shows the same trend every time. One possible reason is that Cityscapes contain a lot of moving objects, which causes the model rather sensitive to the initializations and noises.
 
 | model        | abs rel | sq rel | rmse  | rmse log |  a1  | a2 | a3 |
 |-------------------------|-------------------|--------------------------|-----------------|------|----------------|----------------|----------------|
