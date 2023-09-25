@@ -8,11 +8,8 @@ On the basis of the raw codes in [Monodepth2](https://github.com/nianticlabs/mon
 * Resume from an interrupted training automatically
 * Evaluate and log after each epoch
 * NYUv2 training and evaluation
+* Cityscapes training and evaluation
 * Make3D evaluation
-
-Todo:
-* Cityscapes training and evaluation.
-
 
 # Setup
 
@@ -20,25 +17,36 @@ Install the dependencies with:
 ```shell
 pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 
-pip install scikit-image timm thop yacs opencv-python h5py
+pip install scikit-image timm thop yacs opencv-python h5py joblib
 ```
 We experiment with PyTorch 1.9.1, CUDA 11.1, Python 3.7. Other torch versions may also be okay.
 
 
 # Preparing datasets
-For KITTI dataset, you can prepare them as done in [Monodepth2](https://github.com/nianticlabs/monodepth2). Note that we directly train with the raw png images and do not convert them to jpgs. You also need to generate the groundtruth depth maps before training since the code will evaluate after each epoch. For the raw KITTI groundtruth (`eigen` eval split), run the following command. This will generate `gt_depths.npz` file in the folder `./splits/kitti/eigen/`.
+For KITTI dataset, you can prepare them as done in [Monodepth2](https://github.com/nianticlabs/monodepth2). Note that we directly train with the raw png images and do not convert them to jpgs. You also need to generate the groundtruth depth maps before training since the code will evaluate after each epoch. For the raw KITTI groundtruth (`eigen` eval split), run the following command. This will generate `gt_depths.npz` file in the folder `splits/kitti/eigen/`.
 ```shell
 python export_gt_depth.py --data_path /home/datasets/kitti_raw_data --split eigen
 ```
-Or if you want to use the improved KITTI groundtruth (`eigen_benchmark` eval split), please directly download it in this [link](https://www.dropbox.com/scl/fi/dg7eskv5ztgdyp4ippqoa/gt_depths.npz?rlkey=qb39aajkbhmnod71rm32136ry&dl=0). And then move the downloaded file (`gt_depths.npz`) to the folder `./splits/kitti/eigen_benchmark/`.
+Or if you want to use the improved KITTI groundtruth (`eigen_benchmark` eval split), please directly download it in this [link](https://www.dropbox.com/scl/fi/dg7eskv5ztgdyp4ippqoa/gt_depths.npz?rlkey=qb39aajkbhmnod71rm32136ry&dl=0). And then move the downloaded file (`gt_depths.npz`) to the folder `splits/kitti/eigen_benchmark/`.
 
 For NYUv2 dataset, you can download the training and testing datasets as done in [StructDepth](https://github.com/SJTU-ViSYS/StructDepth).
 
 For Make3D dataset, you can download it from [here](http://make3d.cs.cornell.edu/data.html#make3d).
 
+For Cityscapes dataset, we follow the instructions in [ManyDepth](https://github.com/nianticlabs/manydepth). First Download `leftImg8bit_sequence_trainvaltest.zip` and `camera_trainvaltest.zip` in its [website](https://www.cityscapes-dataset.com/), and unzip them into the folder `/path/to/cityscapes`. Then preprocess CityScapes dataset using the followimg command:
+```shell
+python prepare_cityscapes.py \
+--img_height 512 \
+--img_width 1024 \
+--dataset_dir /home/datasets/cityscapes \
+--dump_root /home/datasets/cityscapes_preprocessed \
+--seq_length 3 \
+--num_threads 8
+```
+Remember to modify `--dataset_dir` and `--dump_root` to your own. The ground truth depth files are provided by ManyDepth in this [link](https://storage.googleapis.com/niantic-lon-static/research/manydepth/gt_depths_cityscapes.zip), which were converted from pixel disparities using intrinsics and the known baseline. Download this and unzip into `splits/cityscapes`
 
 # Training
-You can see the training scripts in [run_kitti.sh](./run_kitti.sh) and [run_nyu.sh](./run_nyu.sh). Take the KITTI script as an example:
+You can see the training scripts in [run_kitti.sh](./run_kitti.sh), [run_nyu.sh](./run_nyu.sh) and [run_cityscapes.sh](./run_cityscapes.sh). Take the KITTI script as an example:
 ```shell
 # CUDA_VISIBLE_DEVICES=0 python train.py \
 
@@ -90,11 +98,12 @@ CUDA_VISIBLE_DEVICES=0 python evaluate_depth.py \
 --batch_size 12 \
 --kitti_path /home/datasets/kitti_raw_data \
 --make3d_path /home/datasets/make3d \
---nyuv2_path /home/datasets/nyu_v2 \
+--cityscapes_path /home/datasets/cityscapes \
+--nyuv2_path /home/datasets/nyu_v2 
 # --use_stereo
 # --post_process
 ```
-This script will evaluate on KITTI (both raw and improved GT), NYUv2 and Make3D together. If you don't want to evaluate on one of these datasets, for example KITTI, just do not specify the corresponding `--kitti_path` flag. It will only evaluate on the datasets which you have specified a path flag.
+This script will evaluate on KITTI (both raw and improved GT), NYUv2, Make3D and Cityscapes together. If you don't want to evaluate on some of these datasets, for example KITTI, just do not specify the corresponding `--kitti_path` flag. It will only evaluate on the datasets which you have specified a path flag.
 
 If the model is under stereo training, add the `--use_stereo` flag.
 
@@ -140,5 +149,5 @@ python test_video.py --image_path folder --pretrained_path xxxx/ckpt.pth --ext p
 Here the `--image_path` flag should be a directory containing several video frames. Note that these video frame files should be named in an ascending numerical order. For example, the first frame is named as `0000.png`, the second frame is named as `0001.png`, and etc. Then the script will output a GIF file.
 
 # Acknowledgement
-We have used codes from other wonderful open-source projects,
-[Monodepth2](https://github.com/nianticlabs/monodepth2) and [StructDepth](https://github.com/SJTU-ViSYS/StructDepth). Thanks for their excellent works!
+We have used codes from other wonderful open-source projects, [SfMLearner](https://github.com/tinghuiz/SfMLearner/tree/master),
+[Monodepth2](https://github.com/nianticlabs/monodepth2), [ManyDepth](https://github.com/nianticlabs/manydepth) and [StructDepth](https://github.com/SJTU-ViSYS/StructDepth). Thanks for their excellent works!
