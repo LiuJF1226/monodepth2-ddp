@@ -3,10 +3,11 @@
 This is a personal modified PyTorch implementation (not official) for [Monodepth2](https://github.com/nianticlabs/monodepth2) ("Digging into Self-Supervised Monocular Depth Prediction", ICCV2019).
 
 
-On the basis of the raw codes in [Monodepth2](https://github.com/nianticlabs/monodepth2), we add some new features in this version:
+On the basis of the raw codes in [Monodepth2](https://github.com/nianticlabs/monodepth2), we add some new features in this version. Now it can support:
 * DDP training mode
 * Resume from an interrupted training automatically
 * Evaluate and log after each epoch
+* KITTI training and evaluation
 * NYUv2 training and evaluation
 * Cityscapes training and evaluation
 * Make3D evaluation
