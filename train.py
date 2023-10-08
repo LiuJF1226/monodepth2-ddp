@@ -522,7 +522,7 @@ class Trainer:
                     dist.barrier()
                     for k in losses.keys():
                         dist.all_reduce(losses[k], op=dist.ReduceOp.SUM)
-                        losses[k] /= self.opt.world_size
+                        losses[k] = losses[k] / self.opt.world_size
                     dist.barrier()
                 if self.opt.global_rank == 0:
                     self.log_time(batch_idx+self.batch_start, data_time, fp_time,bp_time, losses["loss"].cpu().data)
@@ -838,7 +838,7 @@ class Trainer:
         for l, v in losses.items():
             writer.add_scalar("{}".format(l), v, self.step)
 
-        for j in range(min(4, self.opt.batch_size)):  # write a maxmimum of four images
+        for j in range(min(3, self.opt.batch_size)):  # write a maxmimum of four images
             for s in range(self.opt.num_scales):
                 for frame_id in self.opt.frame_ids:
                     writer.add_image(
