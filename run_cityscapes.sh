@@ -9,6 +9,7 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
 --width 512 \
 --height 192 \
 --num_scales 4 \
+--num_layers 18 \
 --batch_size 12 \
 --lr_sche_type step \
 --learning_rate 1e-4 \
