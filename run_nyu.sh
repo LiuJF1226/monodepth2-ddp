@@ -8,6 +8,7 @@ CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 t
 --exp_name mono_nyu \
 --width 384 \
 --height 288 \
+--num_layers 18 \
 --max_depth 10 \
 --num_scales 4 \
 --batch_size 32 \
