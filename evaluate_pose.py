@@ -69,9 +69,10 @@ def evaluate(opt):
     pose_decoder.load_state_dict({k: v for k, v in model["pose"].items() if k in pose_decoder.state_dict()})
     height = model['height']
     width = model['width']
-    
+
+    ext = '.jpg' if opt.jpg else '.png'
     dataset = KITTIOdomDataset(opt.data_path, filenames, height, width,
-                               [0, 1], 4, is_train=False, img_ext='.jpg')
+                               [0, 1], 4, is_train=False, img_ext=ext)
     dataloader = DataLoader(dataset, opt.batch_size, shuffle=False,
                             num_workers=opt.num_workers, pin_memory=True, drop_last=False)
     
